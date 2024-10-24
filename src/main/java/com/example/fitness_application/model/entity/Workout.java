@@ -1,13 +1,13 @@
-package com.example.fitness_application.entity;
+package com.example.fitness_application.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-public class Goal {
+public class Workout {
     @Setter
     @Getter
     @Id
@@ -16,22 +16,21 @@ public class Goal {
 
     @Setter
     @Getter
-    private String goalType;
+    private String type;
 
     @Setter
     @Getter
-    private double targetValue;
+    private int duration;
 
     @Setter
     @Getter
-    private double currentProgress;
-
-    @Setter
-    @Getter
-    private LocalDate deadline;
+    private int caloriesBurned;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Setter
+    @Getter
+    private LocalDateTime date;
 }
