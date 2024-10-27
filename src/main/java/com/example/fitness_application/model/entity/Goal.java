@@ -3,35 +3,24 @@ package com.example.fitness_application.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
-import java.time.LocalDate;
-
+@Setter
+@Getter
 @Entity
+@Table(name = "GOAL")
 public class Goal {
-    @Setter
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Setter
-    @Getter
     private String goalType;
+    private String level;
 
-    @Setter
-    @Getter
-    private double targetValue;
-
-    @Setter
-    @Getter
-    private double currentProgress;
-
-    @Setter
-    @Getter
-    private LocalDate deadline;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    @ManyToMany
+    @JoinTable(
+            name = "goal_workouts",
+            joinColumns = @JoinColumn(name = "goal_id"),
+            inverseJoinColumns = @JoinColumn(name = "workout_id")
+    )
+    private List<Workout> workouts; // Relatie many-to-many cu workout-urile
 }

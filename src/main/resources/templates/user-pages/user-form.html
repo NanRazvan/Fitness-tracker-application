@@ -1,27 +1,50 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>User Form</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-    <h2 th:text="${user.id == null ? 'Add New User' : 'Edit User'}" class="my-4"></h2>
+    <h2 class="my-4" th:text="${user.id != null ? 'Edit User' : 'Add New User'}"></h2>
 
-    <form th:action="@{/users/save}" th:object="${user}" method="post" class="form-group">
-
-        <input type="hidden" th:field="*{id}">
+    <form th:action="@{/users/save}" th:object="${user}" method="post">
+        <input type="hidden" th:field="*{id}"/>
 
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" th:field="*{name}" id="name" class="form-control" placeholder="Enter name" required>
+            <label for="name">Username</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" readonly required>
         </div>
+
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" th:field="*{email}" id="email" class="form-control" placeholder="Enter email" required>
+            <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Enter email" required>
         </div>
-        <button type="submit" class="btn btn-success">Save</button>
-        <a href="/users" class="btn btn-secondary">Back</a>
+
+        <div class="form-group">
+            <label for="cnp">CNP</label>
+            <input type="text" th:field="*{cnp}" class="form-control" id="cnp" placeholder="Enter CNP" required>
+        </div>
+
+        <div class="form-group">
+            <label for="height">Height (cm)</label>
+            <input type="number" th:field="*{height}" class="form-control" id="height" placeholder="Enter height" required>
+        </div>
+
+        <div class="form-group">
+            <label for="weight">Weight (kg)</label>
+            <input type="number" th:field="*{weight}" class="form-control" id="weight" placeholder="Enter weight" required>
+        </div>
+
+        <div class="form-group">
+            <label for="goal">Goal</label>
+            <select th:field="*{goal.id}" class="form-control" id="goal" required>
+                <option th:each="goal : ${goals}" th:value="${goal.id}" th:text="${goal.goalType}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/start-page" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 </body>

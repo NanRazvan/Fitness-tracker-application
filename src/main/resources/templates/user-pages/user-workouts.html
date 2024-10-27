@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>User Workouts</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h2 class="my-4">Goal and Workouts for User</h2>
+
+    <!-- Secțiunea pentru Goal -->
+    <div class="card mb-3">
+        <div class="card-header">
+            Goal Details
+        </div>
+        <div class="card-body">
+            <p><strong>Goal Type:</strong> <span th:text="${goal.goalType}">Strength</span></p>
+            <p><strong>Level:</strong> <span th:text="${goal.level}">Beginner</span></p>
+        </div>
+    </div>
+
+    <!-- Secțiunea pentru Workouts asociate cu Goal-ul -->
+    <h3 class="my-4">Associated Workouts</h3>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>#</th>
+            <th>Workout Name</th>
+            <th>Intensity</th>
+            <th>Duration (minutes)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="workout, iterStat : ${workouts}">
+            <td th:text="${iterStat.index + 1}">1</td>
+            <td th:text="${workout.name}">Workout Name</td>
+            <td th:text="${workout.intensity}">Intensity</td>
+            <td th:text="${workout.duration}">Duration</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/users" class="btn btn-secondary mt-3">Back to User List</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Workout List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h2 class="my-4">Workout List</h2>
+
+    <a href="/workouts/new" class="btn btn-primary mb-3">Add New Workout</a>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Duration (min)</th>
+            <th>Calories Burned</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="workout, iterStat : ${workouts}">
+            <td th:text="${iterStat.index + 1}">1</td>
+            <td th:text="${workout.name}">Workout Name</td>
+            <td th:text="${workout.description}">Workout Description</td>
+            <td th:text="${workout.duration}">30</td>
+            <td th:text="${workout.caloriesBurned}">300</td>
+            <td>
+                <a th:href="@{/workouts/edit/{id}(id=${workout.id})}" class="btn btn-warning">Edit</a>
+                <a th:href="@{/workouts/delete/{id}(id=${workout.id})}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this workout?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

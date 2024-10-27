@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Workout Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h2 class="my-4" th:text="${workout.id != null} ? 'Edit Workout' : 'Add New Workout'">Add New Workout</h2>
+
+    <form th:action="@{/workouts/save}" th:object="${workout}" method="post">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Enter workout name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" class="form-control" th:field="*{description}" placeholder="Enter workout description" required>
+        </div>
+
+        <div class="form-group">
+            <label for="duration">Duration (min)</label>
+            <input type="number" id="duration" class="form-control" th:field="*{duration}" placeholder="Enter duration in minutes" required>
+        </div>
+
+        <div class="form-group">
+            <label for="caloriesBurned">Calories Burned</label>
+            <input type="number" id="caloriesBurned" class="form-control" th:field="*{caloriesBurned}" placeholder="Enter calories burned" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Workout</button>
+        <a href="/workouts" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
