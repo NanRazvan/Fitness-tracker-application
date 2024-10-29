@@ -17,7 +17,7 @@ public class GoalController {
     @GetMapping
     public String getAllGoals(Model model) {
         model.addAttribute("goals", goalService.getAllGoals());
-        return "goals-pages/list-goals";
+        return "redirect:/start-page";
     }
 
     @GetMapping("/new")

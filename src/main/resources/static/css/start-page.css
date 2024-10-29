@@ -1,0 +1,9 @@
+.page-header {
+    background-image: url('../images/start-page_background.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    padding: 50px 20px 400px;
+    text-align: center;
+    font-size: 2rem;
+}

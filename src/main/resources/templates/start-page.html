@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <title>Start Page</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/start-page.css">
     <style>
         .action-buttons {
             display: flex;
@@ -11,6 +12,9 @@
     </style>
 </head>
 <body>
+<header class="page-header">
+    <h1>Welcome to the Fitness Application</h1>
+</header>
 <div class="container">
     <h2 class="my-4">Welcome, <span th:text="${#authentication.name}">User</span></h2>
 
@@ -104,9 +108,10 @@
         <h3>Your Information</h3>
         <p><strong>Name:</strong> <span th:text="${user.name}">John Doe</span></p>
         <p><strong>Email:</strong> <span th:text="${user.email}">john@example.com</span></p>
-        <p><strong>CNP:</strong> <span th:text="${user.cnp}">1234567890123</span></p> <!-- Display CNP -->
-        <p><strong>Height (cm):</strong> <span th:text="${user.height}">180</span></p> <!-- Display Height -->
-        <p><strong>Weight (kg):</strong> <span th:text="${user.weight}">75</span></p> <!-- Display Weight -->
+        <p><strong>CNP:</strong> <span th:text="${user.cnp}">1234567890123</span></p>
+        <p><strong>Age:</strong> <span th:text="${user.age}">25</span></p>
+        <p><strong>Height (cm):</strong> <span th:text="${user.height}">180</span></p>
+        <p><strong>Weight (kg):</strong> <span th:text="${user.weight}">75</span></p>
         <p><strong>Goal:</strong> <span th:text="${user.goal != null ? user.goal.goalType : 'No goal assigned'}">No goal assigned</span></p>
 
         <!-- Workout-uri pentru goal -->
@@ -117,7 +122,6 @@
                 <tr>
                     <th>Workout Name</th>
                     <th>Duration (min)</th>
-                    <th>Calories Burned</th>
                     <th>Description</th>
                 </tr>
                 </thead>
@@ -125,7 +129,6 @@
                 <tr th:each="workout : ${user.goal.workouts}">
                     <td th:text="${workout.name}">Workout Name</td>
                     <td th:text="${workout.duration}">30</td>
-                    <td th:text="${workout.caloriesBurned}">300</td>
                     <td th:text="${workout.description}">Running on treadmill</td>
                 </tr>
                 </tbody>
@@ -135,7 +138,9 @@
             The selected goal has no workouts.
         </p>
 
+        <!-- Buton pentru Calculează Calorii -->
         <div class="my-3">
+            <a th:href="@{/calories/user/{id}(id=${user.id})}" class="btn btn-success mr-2">Calculează Calorii</a>
             <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-warning mr-2"
                th:if="${#authentication.name.toLowerCase().equals(user.name.toLowerCase())}">Edit</a>
         </div>
@@ -143,12 +148,12 @@
 
     <!-- Secțiune pentru utilizatorii cu rol de TRAINER -->
     <div th:if="${#authorization.expression('hasRole(''TRAINER'')')}">
-        <h3>Trainer Dashboard</h3>
-        <a href="/users/new" class="btn btn-primary">Add New User</a>
-        <a href="/goals/new" class="btn btn-primary">Add New Goal</a>
-        <a href="/workouts/new" class="btn btn-primary">Add New Workout</a>
-        <a href="/trainings/new" class="btn btn-primary">Start New Training Program</a>
+        <h3>Trainer Actions</h3>
+        <a href="/goals/new" class="btn btn-primary mb-3">Add New Goal</a>
+        <a href="/workouts/new" class="btn btn-primary mb-3">Add New Workout</a>
+        <a href="/trainings/associate" class="btn btn-primary mb-3">Start New Training Program</a>
 
+        <!-- Tabel cu toți utilizatorii -->
         <h3 class="mt-4">All Users</h3>
         <table class="table table-bordered">
             <thead class="thead-dark">
@@ -156,6 +161,7 @@
                 <th>Name</th>
                 <th>Goal</th>
                 <th>Workouts</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -163,8 +169,83 @@
                 <td th:text="${user.name}">John Doe</td>
                 <td th:text="${user.goal != null ? user.goal.goalType : 'No goal assigned'}"></td>
                 <td>
-                    <ul>
+                    <ul th:if="${user.goal != null && !user.goal.workouts.isEmpty()}">
                         <li th:each="workout : ${user.goal.workouts}">
+                            <span th:text="${workout.name}">Workout Name</span>
+                        </li>
+                    </ul>
+                    <p th:if="${user.goal == null || user.goal.workouts.isEmpty()}" class="text-muted">
+                        No workouts assigned
+                    </p>
+                </td>
+                <td>
+                    <a th:href="@{/calories/user/{id}(id=${user.id})}" class="btn btn-success mr-2">Calculează Calorii</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Tabel cu toate workout-urile -->
+        <h3 class="mt-4">All Workouts</h3>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Workout Name</th>
+                <th>Duration (min)</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="workout : ${workouts}">
+                <td th:text="${workout.name}">Running</td>
+                <td th:text="${workout.duration}">30</td>
+                <td th:text="${workout.description}">Outdoor running session</td>
+                <td>
+                    <a th:href="@{/workouts/edit/{id}(id=${workout.id})}" class="btn btn-warning">Edit</a>
+                    <a th:href="@{/workouts/delete/{id}(id=${workout.id})}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this workout?')">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Tabel cu toate goal-urile -->
+        <h3 class="mt-4">All Goals</h3>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Goal Type</th>
+                <th>Level</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="goal : ${goals}">
+                <td th:text="${goal.goalType}">Strength</td>
+                <td th:text="${goal.level}">Beginner</td>
+                <td>
+                    <a th:href="@{/goals/edit/{id}(id=${goal.id})}" class="btn btn-warning">Edit</a>
+                    <a th:href="@{/goals/delete/{id}(id=${goal.id})}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this goal?')">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Tabel cu goal-urile și workout-urile asociate -->
+        <h3 class="mt-4">Goals and Associated Workouts</h3>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Goal Type</th>
+                <th>Associated Workouts</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="goal : ${goals}">
+                <td th:text="${goal.goalType}">Strength</td>
+                <td>
+                    <ul>
+                        <li th:each="workout : ${goal.workouts}">
                             <span th:text="${workout.name}">Workout Name</span>
                         </li>
                     </ul>
@@ -174,7 +255,6 @@
         </table>
     </div>
 
-    <!-- Buton de Logout disponibil pentru ambele roluri -->
     <a href="/logout" class="btn btn-secondary">Logout</a>
 </div>
 </body>

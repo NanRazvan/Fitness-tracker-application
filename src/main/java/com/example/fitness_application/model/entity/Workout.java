@@ -17,9 +17,8 @@ public class Workout {
     private String name;
     private String description;
     private int duration;
-    private int caloriesBurned;
 
     @ManyToMany(mappedBy = "workouts")
-    private List<Goal> goals; // Relatie many-to-many cu goal-urile
+    private List<Goal> goals;
 
 }

@@ -3,6 +3,8 @@ package com.example.fitness_application.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -22,5 +24,18 @@ public class Goal {
             joinColumns = @JoinColumn(name = "goal_id"),
             inverseJoinColumns = @JoinColumn(name = "workout_id")
     )
-    private List<Workout> workouts; // Relatie many-to-many cu workout-urile
+    private List<Workout> workouts;
+
+    @OneToMany(mappedBy = "goal")
+    private List<User> users = new ArrayList<>();
+
+    public void addUser(User user) {
+        users.add(user);
+        user.setGoal(this);
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
+        user.setGoal(null);
+    }
 }

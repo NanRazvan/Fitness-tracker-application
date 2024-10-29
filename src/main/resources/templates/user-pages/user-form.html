@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>User Form</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -37,9 +37,14 @@
         </div>
 
         <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" th:field="*{age}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
             <label for="goal">Goal</label>
             <select th:field="*{goal.id}" class="form-control" id="goal" required>
-                <option th:each="goal : ${goals}" th:value="${goal.id}" th:text="${goal.goalType}"></option>
+                <option th:each="goal : ${goals}" th:value="${goal.id}" th:text="${goal.goalType +' - '+ goal.level}"></option>
             </select>
         </div>
 

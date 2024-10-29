@@ -40,16 +40,17 @@ public class UserService {
     public void saveOrUpdateUser(UserDTO userDTO) {
         User user = UserConverter.toEntity(userDTO);
 
-        // Asociază goal-ul, dacă `goalId` este prezent
-        if (userDTO.getGoal() != null) {
-            Optional<Goal> goal = goalRepository.findById(userDTO.getGoal().getId());
-            goal.ifPresent(user::setGoal);
-        }
+        User existingUser = userDTO.getId() != null ? userRepository.findById(userDTO.getId()).orElse(null) : null;
+        Goal previousGoal = existingUser != null ? existingUser.getGoal() : null;
 
-        if (userDTO.getId() != null) {
-            userRepository.findById(userDTO.getId()).ifPresent(existingUser -> user.setId(existingUser.getId()));
+        Goal newGoal = userDTO.getGoal() != null ? goalRepository.findById(userDTO.getGoal().getId()).orElse(null) : null;
+        user.setGoal(newGoal);
+        if (previousGoal != null && !previousGoal.equals(newGoal)) {
+            previousGoal.removeUser(user);
         }
-        user.setEmail(userDTO.getEmail());
+        if (newGoal != null && (existingUser == null || !newGoal.getUsers().contains(user))) {
+            newGoal.addUser(user);
+        }
         userRepository.save(user);
     }
 

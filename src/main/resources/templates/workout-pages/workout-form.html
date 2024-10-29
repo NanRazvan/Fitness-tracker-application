@@ -9,6 +9,7 @@
     <h2 class="my-4" th:text="${workout.id != null} ? 'Edit Workout' : 'Add New Workout'">Add New Workout</h2>
 
     <form th:action="@{/workouts/save}" th:object="${workout}" method="post">
+        <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Enter workout name" required>
@@ -22,11 +23,6 @@
         <div class="form-group">
             <label for="duration">Duration (min)</label>
             <input type="number" id="duration" class="form-control" th:field="*{duration}" placeholder="Enter duration in minutes" required>
-        </div>
-
-        <div class="form-group">
-            <label for="caloriesBurned">Calories Burned</label>
-            <input type="number" id="caloriesBurned" class="form-control" th:field="*{caloriesBurned}" placeholder="Enter calories burned" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Save Workout</button>

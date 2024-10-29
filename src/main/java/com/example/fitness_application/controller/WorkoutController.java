@@ -17,7 +17,7 @@ public class WorkoutController {
     @GetMapping
     public String getAllWorkouts(Model model) {
         model.addAttribute("workouts", workoutService.getAllWorkouts());
-        return "workout-pages/list-workouts";
+        return "redirect:/start-page";
     }
 
     @GetMapping("/new")

@@ -5,12 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -21,34 +19,19 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/trainings/**").hasRole("TRAINER")
-                        .requestMatchers("/goals/**", "/workouts/**", "/users/**").hasAnyRole("USER", "TRAINER")
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+//                        .requestMatchers("/users/**").hasRole("USER")
+//                        .requestMatchers("/goals/**", "/workouts/**", "/trainings/**").hasRole("TRAINER")
+                        .requestMatchers("/**").hasAnyRole("ADMIN","USER","TRAINER")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .defaultSuccessUrl("/start-page", true) // asigură-te că există această pagină
+                        .defaultSuccessUrl("/start-page", true)
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
 
         return http.build();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-//        UserDetails user = User.withUsername("Razvan")
-//                .password(passwordEncoder.encode("password"))
-//                .roles("USER")
-//                .build();
-//
-//        UserDetails trainer = User.withUsername("trainer")
-//                .password(passwordEncoder.encode("password"))
-//                .roles("TRAINER")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(user, trainer);
-//    }
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {

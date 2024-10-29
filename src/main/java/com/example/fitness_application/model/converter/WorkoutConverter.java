@@ -11,7 +11,6 @@ public class WorkoutConverter {
         workoutDTO.setName(workout.getName());
         workoutDTO.setDescription(workout.getDescription());
         workoutDTO.setDuration(workout.getDuration());
-        workoutDTO.setCaloriesBurned(workout.getCaloriesBurned());
         return workoutDTO;
     }
 
@@ -21,7 +20,6 @@ public class WorkoutConverter {
         workout.setName(workoutDTO.getName());
         workout.setDescription(workoutDTO.getDescription());
         workout.setDuration(workoutDTO.getDuration());
-        workout.setCaloriesBurned(workoutDTO.getCaloriesBurned());
         return workout;
     }
 }

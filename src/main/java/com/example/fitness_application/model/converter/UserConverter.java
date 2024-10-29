@@ -11,10 +11,10 @@ public class UserConverter {
         userDTO.setId(user.getId());
         userDTO.setName(user.getName());
         userDTO.setEmail(user.getEmail());
-        userDTO.setCnp(user.getCnp()); // Convert new field
-        userDTO.setHeight(user.getHeight()); // Convert new field
-        userDTO.setWeight(user.getWeight()); // Convert new field
-        // Convertim și goal-ul utilizatorului dacă acesta există
+        userDTO.setCnp(user.getCnp());
+        userDTO.setHeight(user.getHeight());
+        userDTO.setWeight(user.getWeight());
+        userDTO.setAge(user.getAge());
         if (user.getGoal() != null) {
             GoalDTO goalDTO = GoalConverter.toDTO(user.getGoal());
             userDTO.setGoal(goalDTO);
@@ -28,10 +28,10 @@ public class UserConverter {
         user.setId(userDTO.getId());
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
-        user.setCnp(userDTO.getCnp()); // Set new field
-        user.setHeight(userDTO.getHeight()); // Set new field
-        user.setWeight(userDTO.getWeight()); // Set new field
-        // Asociază goal-ul dacă este prezent
+        user.setCnp(userDTO.getCnp());
+        user.setHeight(userDTO.getHeight());
+        user.setWeight(userDTO.getWeight());
+        user.setAge(userDTO.getAge());
         if (userDTO.getGoal() != null) {
             user.setGoal(GoalConverter.toEntity(userDTO.getGoal()));
         }

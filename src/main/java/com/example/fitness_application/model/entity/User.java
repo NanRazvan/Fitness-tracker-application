@@ -3,7 +3,6 @@ package com.example.fitness_application.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.List;
 
 @Setter
 @Getter
@@ -22,6 +21,6 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "goal_id")
-    private Goal goal;  // Fiecare utilizator are un goal
+    private Goal goal;
 
 }

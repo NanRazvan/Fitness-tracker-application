@@ -4,7 +4,6 @@ import com.example.fitness_application.model.dto.GoalDTO;
 import com.example.fitness_application.model.dto.UserDTO;
 import com.example.fitness_application.service.UserService;
 import com.example.fitness_application.service.GoalService;
-import com.example.fitness_application.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,17 +20,15 @@ public class UserController {
 
     private final UserService userService;
     private final GoalService goalService;
-    private final WorkoutService workoutService;
 
     @GetMapping
     public String getAllUsers(Model model) {
-        // Obține numele utilizatorului logat
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUsername = authentication.getName();
 
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("loggedInUsername", loggedInUsername);
-        return "/start-page";
+        return "redirect:/start-page";
     }
 
     @GetMapping("/{id}/workouts")
@@ -44,7 +41,7 @@ public class UserController {
             return "user-pages/user-workouts";
         }
 
-        return "redirect:/users"; // Redirect dacă utilizatorul nu are goal sau nu există
+        return "redirect:/users";
     }
 
     @GetMapping("/new")
@@ -52,7 +49,6 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
 
-        // Create a new UserDTO with the prefilled username
         UserDTO userDTO = new UserDTO();
         userDTO.setName(name);
         List<GoalDTO> goals = goalService.getAllGoals();
@@ -66,7 +62,7 @@ public class UserController {
         UserDTO userDTO = userService.getUserById(id);
         if (userDTO != null) {
             model.addAttribute("user", userDTO);
-            model.addAttribute("goals", goalService.getAllGoals()); // Adăugăm lista de goals
+            model.addAttribute("goals", goalService.getAllGoals());
             return "user-pages/user-form";
         } else {
             return "redirect:/start-page";
@@ -82,6 +78,6 @@ public class UserController {
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return "redirect:/user-pages/list-users";
+        return "redirect:/start-page";
     }
 }

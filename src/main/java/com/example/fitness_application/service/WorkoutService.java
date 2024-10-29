@@ -30,9 +30,6 @@ public class WorkoutService {
 
     public void saveOrUpdateWorkout(WorkoutDTO workoutDTO) {
         Workout workout = WorkoutConverter.toEntity(workoutDTO);
-        if (workoutDTO.getId() != null) {
-            workoutRepository.findById(workoutDTO.getId()).ifPresent(existingWorkout -> workout.setId(existingWorkout.getId()));
-        }
         workoutRepository.save(workout);
     }
 

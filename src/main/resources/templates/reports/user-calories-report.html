@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>User Calories Report</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-5">
+    <h2 class="mb-4">Calories Report for <span th:text="${report.userName}">User Name</span></h2>
+
+    <!-- Associated Goal with level -->
+    <p><strong>Associated Goal:</strong>
+        <span th:text="${report.goal.goalType} + ' - ' + ${report.goal.level}">Goal Type - Level</span>
+    </p>
+
+    <!-- Total Calories -->
+    <p><strong>Total Calories Burned ( personalized ):</strong> <span th:text="${#numbers.formatDecimal(report.totalCalories, 2, 2)}">0.00</span> kcal</p>
+
+    <!-- Table with intensity factor per workout -->
+    <h4 class="mt-4">Intensity Factor Per Workout</h4>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Workout Name</th>
+            <th>Duration (min)</th>
+            <th>Intensity Factor</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry : ${report.caloriesPerWorkout}">
+            <td th:text="${entry.key.name}">Workout Name</td>
+            <td th:text="${entry.key.duration}">Duration</td>
+            <td th:text="${#numbers.formatDecimal(entry.value, 2, 2)}">0.00</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Back button -->
+    <div class="mt-4">
+        <a href="/start-page" class="btn btn-secondary">Back to Main Page</a>
+    </div>
+</div>
+</body>
+</html>
