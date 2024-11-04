@@ -20,11 +20,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
 //                        .requestMatchers("/users/**").hasRole("USER")
+                          .requestMatchers("/login-page", "/css/**", "/images/**").permitAll()
 //                        .requestMatchers("/goals/**", "/workouts/**", "/trainings/**").hasRole("TRAINER")
                         .requestMatchers("/**").hasAnyRole("ADMIN","USER","TRAINER")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
+                        .loginPage("/login-page")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/start-page", true)
                         .permitAll()
                 )

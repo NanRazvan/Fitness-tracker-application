@@ -25,7 +25,7 @@
             <td th:text="${iterStat.index + 1}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.email}"></td>
-            <td th:text="${user.goal != null ? user.goal.goalType : 'No goal assigned'}"></td>
+            <td th:text="${user.goal != null ? user.goal.goalType +' - '+ user.goal.level: 'No goal assigned'}"></td>
             <td>
                 <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-warning"
                    th:if="${#authentication.name.equals(user.name)}">Edit</a>

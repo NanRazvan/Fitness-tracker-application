@@ -13,7 +13,7 @@
             Goal Details
         </div>
         <div class="card-body">
-            <p><strong>Goal Type:</strong> <span th:text="${goal.goalType}">Strength</span></p>
+            <p><strong>Goal Type:</strong> <span th:text="${goal.goalType +' - '+ goal.level}">Strength</span></p>
             <p><strong>Level:</strong> <span th:text="${goal.level}">Beginner</span></p>
         </div>
     </div>

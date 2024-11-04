@@ -37,8 +37,8 @@
             </thead>
             <tbody>
             <tr th:each="user : ${users}">
-                <td th:text="${user.name}">John Doe</td>
-                <td th:text="${user.email}">john@example.com</td>
+                <td th:text="${user.name}">Test username</td>
+                <td th:text="${user.email}">testEmail@test.com</td>
                 <td class="action-buttons">
                     <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-warning mr-2">Edit</a>
                     <a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger mr-2"
@@ -106,13 +106,13 @@
     <!-- Secțiune pentru utilizatorii cu rol de USER -->
     <div th:if="${#authorization.expression('hasRole(''USER'')')}">
         <h3>Your Information</h3>
-        <p><strong>Name:</strong> <span th:text="${user.name}">John Doe</span></p>
-        <p><strong>Email:</strong> <span th:text="${user.email}">john@example.com</span></p>
+        <p><strong>Name:</strong> <span th:text="${user.name}">Test username</span></p>
+        <p><strong>Email:</strong> <span th:text="${user.email}">testEmail@test.com</span></p>
         <p><strong>CNP:</strong> <span th:text="${user.cnp}">1234567890123</span></p>
         <p><strong>Age:</strong> <span th:text="${user.age}">25</span></p>
         <p><strong>Height (cm):</strong> <span th:text="${user.height}">180</span></p>
         <p><strong>Weight (kg):</strong> <span th:text="${user.weight}">75</span></p>
-        <p><strong>Goal:</strong> <span th:text="${user.goal != null ? user.goal.goalType : 'No goal assigned'}">No goal assigned</span></p>
+        <p><strong>Goal:</strong> <span th:text="${user.goal != null ? user.goal.goalType +' - '+ user.goal.level : 'No goal assigned'}">No goal assigned</span></p>
 
         <!-- Workout-uri pentru goal -->
         <h3>Your Workouts</h3>
@@ -166,8 +166,8 @@
             </thead>
             <tbody>
             <tr th:each="user : ${users}">
-                <td th:text="${user.name}">John Doe</td>
-                <td th:text="${user.goal != null ? user.goal.goalType : 'No goal assigned'}"></td>
+                <td th:text="${user.name}">Test username</td>
+                <td th:text="${user.goal != null ? user.goal.goalType +' - '+ user.goal.level: 'No goal assigned'}"></td>
                 <td>
                     <ul th:if="${user.goal != null && !user.goal.workouts.isEmpty()}">
                         <li th:each="workout : ${user.goal.workouts}">
@@ -221,7 +221,7 @@
             </thead>
             <tbody>
             <tr th:each="goal : ${goals}">
-                <td th:text="${goal.goalType}">Strength</td>
+                <td th:text="${goal.goalType +' - '+ goal.level}">Strength</td>
                 <td th:text="${goal.level}">Beginner</td>
                 <td>
                     <a th:href="@{/goals/edit/{id}(id=${goal.id})}" class="btn btn-warning">Edit</a>
@@ -242,7 +242,7 @@
             </thead>
             <tbody>
             <tr th:each="goal : ${goals}">
-                <td th:text="${goal.goalType}">Strength</td>
+                <td th:text="${goal.goalType +' - '+ goal.level}">Strength</td>
                 <td>
                     <ul>
                         <li th:each="workout : ${goal.workouts}">

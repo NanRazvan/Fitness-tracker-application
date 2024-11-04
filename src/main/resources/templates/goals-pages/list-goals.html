@@ -22,7 +22,7 @@
         <tbody>
         <tr th:each="goal, iterStat : ${goals}">
             <td th:text="${iterStat.index + 1}"></td>
-            <td th:text="${goal.goalType}"></td>
+            <td th:text="${goal.goalType +' - '+ goal.level }"></td>
             <td th:text="${goal.level}"></td>
             <td>
                 <a th:href="@{/goals/edit/{id}(id=${goal.id})}" class="btn btn-warning">Edit</a>
